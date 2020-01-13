@@ -5,11 +5,13 @@ import Options from './Options'
 import Action from './Action'
 import Header from './Header'
 import Errors from './Errors'
+import OptionModal from './OptionModal'
 
 class IndecisionApp extends React.Component {
   state = {
     subtitle: 'Put your life in the hands of a computer',
     options: [],
+    selectedOption: undefined,
     errors: []
   }
 
@@ -39,6 +41,10 @@ class IndecisionApp extends React.Component {
 
   componentWillUnmount() {
     console.log('componentWillUnmount')
+  }
+
+  clearSelectedOption = () => {
+    this.setState({ selectedOption: undefined })
   }
 
   addErrorMessage = (message) => {
@@ -77,7 +83,7 @@ class IndecisionApp extends React.Component {
     if (this.state.options && this.state.options.length > 0) {
       const randomNum = Math.floor(Math.random() * this.state.options.length)
       const option = this.state.options[randomNum]
-      alert(`Your chosen option is ${option}`)
+      this.setState({ selectedOption: option })
     } else {
       this.addErrorMessage("Cannot generate response if there are no options!")
     }
@@ -103,6 +109,10 @@ class IndecisionApp extends React.Component {
         />
         <AddOption
           handleAddOption={this.handleAddOption}
+        />
+        <OptionModal
+          selectedOption={this.state.selectedOption}
+          clearSelectedOption={this.clearSelectedOption}
         />
       </div>
     )

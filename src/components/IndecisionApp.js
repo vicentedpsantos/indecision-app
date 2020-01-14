@@ -1,100 +1,103 @@
-import React from 'react'
+// @format
+import React from 'react';
 
-import AddOption from './AddOption'
-import Options from './Options'
-import Action from './Action'
-import Header from './Header'
-import Errors from './Errors'
-import OptionModal from './OptionModal'
+import AddOption from './AddOption';
+import Options from './Options';
+import Action from './Action';
+import Header from './Header';
+import Errors from './Errors';
+import OptionModal from './OptionModal';
 
 class IndecisionApp extends React.Component {
   state = {
     subtitle: 'Put your life in the hands of a computer',
     options: [],
     selectedOption: undefined,
-    errors: []
-  }
+    errors: [],
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   componentDidMount() {
     try {
-      const json = localStorage.getItem('options')
-      const options = JSON.parse(json)
+      const json = localStorage.getItem('options');
+      const options = JSON.parse(json);
 
       if (options) {
-        this.setState((prevState) => ({ options: options }))
+        this.setState(prevState => ({options: options}));
       }
-    } catch(e) {
+    } catch (e) {
       // do nothing at all
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.options.length !== this.state.options.length) {
-      const json = JSON.stringify(this.state.options)
-      localStorage.setItem('options', json)
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem('options', json);
     }
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount')
+    console.log('componentWillUnmount');
   }
 
   clearSelectedOption = () => {
-    this.setState({ selectedOption: undefined })
-  }
+    this.setState({selectedOption: undefined});
+  };
 
-  addErrorMessage = (message) => {
-    if(this.state.errors.indexOf(message) === -1) {
-      this.setState((prevState) => ({ errors: prevState.errors.concat([message]) }))
+  addErrorMessage = message => {
+    if (this.state.errors.indexOf(message) === -1) {
+      this.setState(prevState => ({
+        errors: prevState.errors.concat([message]),
+      }));
     }
-  }
+  };
 
-  handleRemoveOption = (option) => {
-    let editedOptions = [...this.state.options]
-    editedOptions.splice(editedOptions.indexOf(option), 1)
+  handleRemoveOption = option => {
+    let editedOptions = [...this.state.options];
+    editedOptions.splice(editedOptions.indexOf(option), 1);
 
-    this.setState(() => ({ options: editedOptions }))
-  }
+    this.setState(() => ({options: editedOptions}));
+  };
 
   clearErrorMessages = () => {
-    this.setState(() => ({ errors: [] }))
-  }
+    this.setState(() => ({errors: []}));
+  };
 
-  handleAddOption = (option) => {
-    if(!option) {
-      this.addErrorMessage('Enter valid item to add option!')
+  handleAddOption = option => {
+    if (!option) {
+      this.addErrorMessage('Enter valid item to add option!');
     } else if (this.state.options.indexOf(option) > -1) {
-      this.addErrorMessage('This option has already been included!')
+      this.addErrorMessage('This option has already been included!');
     } else {
-      this.setState((prevState) => ({ options: prevState.options.concat([option]) }))
-      this.clearErrorMessages()
+      this.setState(prevState => ({
+        options: prevState.options.concat([option]),
+      }));
+      this.clearErrorMessages();
     }
-  }
+  };
 
   handleDeleteOptions = () => {
-    this.setState(() => ({ options: [] }))
-  }
+    this.setState(() => ({options: []}));
+  };
 
   handlePick = () => {
     if (this.state.options && this.state.options.length > 0) {
-      const randomNum = Math.floor(Math.random() * this.state.options.length)
-      const option = this.state.options[randomNum]
-      this.setState({ selectedOption: option })
+      const randomNum = Math.floor(Math.random() * this.state.options.length);
+      const option = this.state.options[randomNum];
+      this.setState({selectedOption: option});
     } else {
-      this.addErrorMessage("Cannot generate response if there are no options!")
+      this.addErrorMessage('Cannot generate response if there are no options!');
     }
-  }
+  };
 
   render() {
-    return(
+    return (
       <div>
-        <Header
-          subtitle="Leave your future in the hands of a computer"
-        />
+        <Header subtitle="Leave your future in the hands of a computer" />
         <Action
           handlePick={this.handlePick}
           hasOptions={this.state.options.length > 0}
@@ -104,23 +107,19 @@ class IndecisionApp extends React.Component {
           handleRemoveOption={this.handleRemoveOption}
           options={this.state.options}
         />
-        <Errors
-          errorMessages={this.state.errors}
-        />
-        <AddOption
-          handleAddOption={this.handleAddOption}
-        />
+        <Errors errorMessages={this.state.errors} />
+        <AddOption handleAddOption={this.handleAddOption} />
         <OptionModal
           selectedOption={this.state.selectedOption}
           clearSelectedOption={this.clearSelectedOption}
         />
       </div>
-    )
+    );
   }
 }
 
 IndecisionApp.defaultProps = {
-  options: []
-}
+  options: [],
+};
 
-export default IndecisionApp
+export default IndecisionApp;

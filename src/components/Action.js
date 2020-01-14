@@ -1,14 +1,13 @@
-import React from 'react'
+// @format
 
-const Action = (props) => (
+import React from 'react';
+
+const Action = props => (
   <div>
-    <button
-      disabled={!props.hasOptions}
-      onClick={props.handlePick}
-    >
+    <button disabled={!props.hasOptions} onClick={props.handlePick}>
       What should I do?
     </button>
   </div>
-)
+);
 
-export default Action
+export default Action;

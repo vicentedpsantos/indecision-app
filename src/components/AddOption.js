@@ -11,15 +11,16 @@ const AddOption = (props) => {
   }
 
   return(
-    <div>
+    <div className='add-option'>
       <form
         onSubmit={handleAddOption}
       >
         <input
+          className='add-option__input'
           name="option"
           type="text"
         />
-        <button>
+        <button className='button'>
           Add Option
         </button>
       </form>

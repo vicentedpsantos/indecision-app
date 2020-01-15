@@ -1,27 +1,32 @@
-import React from 'react'
+// @format
+import React from 'react';
 
-import Option from './Option'
+import Option from './Option';
 
-const Options = (props) => (
+const Options = props => (
   <div>
+    <div className="widget-header">
+      <h3 className="widget-header__title">Your Options</h3>
       <button
-        onClick={props.handleDeleteOptions}
-      >
+        className="button button--link"
+        onClick={props.handleDeleteOptions}>
         Remove All
       </button>
-      {props.options.length === 0 && <p>Please add an option to get started!</p>}
-      <ol>
-        {
-          props.options.map((option, i) =>
-            <Option
-              key={i}
-              option={option}
-              handleRemoveOption={props.handleRemoveOption}
-            />
-          )
-        }
-      </ol>
     </div>
-)
 
-export default Options
+    <ol>
+      {props.options.map((option, i) => (
+        <Option
+          key={i}
+          option={option}
+          handleRemoveOption={props.handleRemoveOption}
+        />
+      ))}
+    </ol>
+    {props.options.length === 0 && (
+      <p className="widget__message">Please add an option to get started!</p>
+    )}
+  </div>
+);
+
+export default Options;
